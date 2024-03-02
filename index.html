@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <script src="https://www.recaptcha.net/recaptcha/api.js"></script>
+        </head>
+    <body>
+        <div class="container">
+            <p>Powered By FormSpree</p>
+            <p>Developed By Rahul Dawpersad</p>
+            <form
+              id="contactForm"
+              action="https://formspree.io/f/xeqygllk"
+              method="post"
+            >
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                placeholder="Full Name"
+              /><span id="fullNameError" style="color: red"></span><br /><br />
+              <input type="email" id="email" name="email" placeholder="Email" /><span
+                id="emailError"
+                style="color: red"
+              ></span
+              ><br /><br />
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                placeholder="Message"
+              ></textarea
+              ><span id="messageError" style="color: red"></span><br /><br />
+              <div
+                class="g-recaptcha"
+                data-sitekey="6LeUIIcpAAAAAPJSiddl-lU9cgRB-vCJWzU_peXD"
+              ></div>
+              <span id="recaptchaError" style="color: red"></span><br />
+              <input
+                type="hidden"
+                name="derive_fields"
+                value="imgverify=g-recaptcha-response"
+              />
+              <button type="submit" id="submitBtn">Send</button>
+            </form>
+          </div>
+      
+          <script>
+            function validateForm() {
+              var fullName = document.getElementById("fullName").value.trim();
+              var email = document.getElementById("email").value.trim();
+              var message = document.getElementById("message").value.trim();
+              var recaptchaResponse = document
+                .getElementById("g-recaptcha-response")
+                .value.trim();
+              var isValid = true;
+      
+              if (fullName === "") {
+                document.getElementById("fullNameError").textContent =
+                  "Please enter your full name.";
+                isValid = false;
+              } else {
+                document.getElementById("fullNameError").textContent = "";
+              }
+      
+              if (email === "") {
+                document.getElementById("emailError").textContent =
+                  "Please enter your email address.";
+                isValid = false;
+              } else {
+                document.getElementById("emailError").textContent = "";
+              }
+      
+              if (message === "") {
+                document.getElementById("messageError").textContent =
+                  "Please enter your message.";
+                isValid = false;
+              } else {
+                document.getElementById("messageError").textContent = "";
+              }
+      
+              if (recaptchaResponse === "") {
+                document.getElementById("recaptchaError").textContent =
+                  "Please complete the reCAPTCHA.";
+                isValid = false;
+              } else {
+                document.getElementById("recaptchaError").textContent = "";
+              }
+      
+              return isValid;
+            }
+      
+            document.getElementById("contactForm").addEventListener("submit", function (event) {
+                if (!validateForm()) {
+                  event.preventDefault();
+                  var formData = new FormData(document.getElementById("contactform"));
+                  var captchaResponse = formData.get("g-recaptcha-response");
+                  fetch(
+                    encodeURI(captchaResponse),
+                    { method: "POST" }
+                  ).then(() => location.reload());
+                }
+              });
+          </script>
+    </body>
+</html>
