@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const fetch = require("node-fetch")
 
-app.get("/", (req, res) => res.sendFile(__dirname + "\\index.html"))
+app.get("/", (req, res) => res.sendFile(__dirname + "index.html"))
 
 //Fetches the comments
 app.get("/comments", (req, res) => {
